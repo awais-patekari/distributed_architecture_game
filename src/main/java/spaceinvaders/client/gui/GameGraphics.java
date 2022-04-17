@@ -10,6 +10,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,7 @@ public class GameGraphics implements UiObject {
   private final JLabel messageLbl = new JLabel();
   private final JLabel[] scoreLbl = new JLabel[1 + ClientConfig.getInstance().getMaxPlayers()]; 
   private final JLabel controlsLbl = new JLabel();
+  private final JLabel detectCheatingLbl = new JLabel();
   private final List<Couple<Integer,Integer>> score = new ArrayList<>();
   private final BufferedImage gameOverImg;
   private final BufferedImage victoryImg;
@@ -61,11 +63,14 @@ public class GameGraphics implements UiObject {
         + "<br>SPACE - shoot"
         + "<br>LEFT/RIGHT - move</html>");
 
+    detectCheatingLbl.setText("--------");
+
     final JPanel messagePanel = new JPanel();
     Box box = Box.createVerticalBox();
     messageLbl.setHorizontalAlignment(LEFT);
     box.add(messageLbl);
     box.add(controlsLbl);
+    box.add(detectCheatingLbl);
     for (int index = 0; index < scoreLbl.length; ++index) {
       scoreLbl[index] = new JLabel();
       box.add(scoreLbl[index]);
@@ -105,6 +110,11 @@ public class GameGraphics implements UiObject {
   public void show() {
     messageLbl.setText("Waiting for server...");
     frame.setVisible(true);
+  }
+
+  public void detectCheating(String name) {
+    detectCheatingLbl.setText(name + " is checting!");
+    detectCheatingLbl.setForeground(Color.RED);
   }
 
   /** Add a listener for key bindings. */

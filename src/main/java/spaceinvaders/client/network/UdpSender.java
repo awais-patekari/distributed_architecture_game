@@ -9,6 +9,7 @@ import java.net.DatagramSocket;
 import java.util.logging.Logger;
 import spaceinvaders.command.Command;
 import spaceinvaders.utility.Chain;
+import java.util.Random;
 
 /** Send commands using the UDP protocol. */
 class UdpSender implements Chain<Command> {
@@ -41,6 +42,8 @@ class UdpSender implements Chain<Command> {
       String data = command.toJson();
       DatagramPacket packet = new DatagramPacket(data.getBytes(),data.length());
       try {
+        // Adding a random delay between 10-50 milliseconds while sending udp packets to server
+        Thread.sleep(10 + new Random().nextInt(50));
         socket.send(packet);
       } catch (Exception exception) {
         // Do not stop the game in case one packet fails.

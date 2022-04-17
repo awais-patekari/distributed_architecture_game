@@ -202,6 +202,14 @@ public class GameController implements Controller {
     public void handle(KeyEvent event) {
       if (event.getKeyCode() == VK_LEFT) {
         if (model.getGameState()) {
+
+          /**
+          //if the player name is 'Max', 2x the speed at which the player moves right
+          if(ClientConfig.getInstance().getUserName().equals("max")) {
+            model.doCommand(new MovePlayerLeftCommand(ClientConfig.getInstance().getId()));  
+          }
+          */
+
           model.doCommand(new MovePlayerLeftCommand(ClientConfig.getInstance().getId()));
         }
       } else {
@@ -229,6 +237,12 @@ public class GameController implements Controller {
     public void handle(KeyEvent event) {
       if (event.getKeyCode() == VK_RIGHT) {
         if (model.getGameState()) {
+          /** 
+          //if the player name is 'Max', 2x the speed at which the player moves right
+          if(ClientConfig.getInstance().getUserName().equals("max")) {
+            model.doCommand(new MovePlayerRightCommand(ClientConfig.getInstance().getId()));
+          }
+          */
           model.doCommand(new MovePlayerRightCommand(ClientConfig.getInstance().getId()));
         }
       } else {

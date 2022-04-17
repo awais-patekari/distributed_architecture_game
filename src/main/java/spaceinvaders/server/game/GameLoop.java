@@ -19,6 +19,7 @@ import spaceinvaders.command.client.MoveEntityCommand;
 import spaceinvaders.command.client.SpawnEntityCommand;
 import spaceinvaders.command.client.TranslateGroupCommand;
 import spaceinvaders.command.client.WipeOutEntityCommand;
+import spaceinvaders.command.client.DetectCheatingCommand;
 import spaceinvaders.game.EntityEnum;
 import spaceinvaders.game.GameConfig;
 import spaceinvaders.server.game.world.LogicEntity;
@@ -27,6 +28,7 @@ import spaceinvaders.server.game.world.World;
 import spaceinvaders.server.player.Player;
 import spaceinvaders.utility.AutoSwitch;
 import spaceinvaders.utility.Service;
+import spaceinvaders.client.gui.GameGraphics;
 
 /** Provides methods for handling player input and advancing the game simulation. */
 public class GameLoop implements Service<Void> {
@@ -45,6 +47,7 @@ public class GameLoop implements Service<Void> {
   private final Integer invadersVelocityY = config.speed().invader().getDistance() * 2;
   private Integer invadersVelocityX = config.speed().invader().getDistance();
   private boolean gameOver = false;
+  GameGraphics gG = new GameGraphics();
 
   /**
    * @param team human players.
@@ -133,7 +136,15 @@ public class GameLoop implements Service<Void> {
     while (it.hasNext()) {
       LogicEntity player = it.next();
       if (player.getId() == id) {
-        movePlayer(player,player.getX() - config.speed().player().getDistance());
+        //if the player name is 'Max', 5x the speed at which the player moves right
+        int distanceToMove = config.speed().player().getDistance();
+
+        for (Player p : team) {
+          if(p.getId() == id && p.getName().equals("max")){
+            distanceToMove = 5 * config.speed().player().getDistance();
+          }
+        }
+        movePlayer(player,player.getX() - distanceToMove);
       }
     }
   }
@@ -148,7 +159,15 @@ public class GameLoop implements Service<Void> {
     while (it.hasNext()) {
       LogicEntity player = it.next();
       if (player.getId() == id) {
-        movePlayer(player,player.getX() + config.speed().player().getDistance());
+        //if the player name is 'Max', 5x the speed at which the player moves right
+        int distanceToMove = config.speed().player().getDistance();
+
+        for (Player p : team) {
+          if(p.getId() == id && p.getName().equals("max")){
+            distanceToMove = 5 * config.speed().player().getDistance();
+          }
+        }
+        movePlayer(player,player.getX() + distanceToMove);
       }
     }
   }
@@ -162,6 +181,19 @@ public class GameLoop implements Service<Void> {
   }
 
   private void moveEntity(LogicEntity entity, int newX, int newY) {
+    int standardDistance = config.speed().player().getDistance();
+
+    int actualDistance = Math.abs(newX - entity.getX());
+
+    if(actualDistance > standardDistance) {
+      for (Player p : team) {
+        if(p.getId() == entity.getId()){
+          commandBuf.add(new DetectCheatingCommand(p.getName()));
+          //gG.detectCheating();
+        }
+      }
+    }
+
     entity.move(newX,newY);
     commandBuf.add(
         new MoveEntityCommand(entity.getId(),newX,newY));

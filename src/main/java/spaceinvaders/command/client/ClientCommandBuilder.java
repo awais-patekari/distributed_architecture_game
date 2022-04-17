@@ -9,6 +9,7 @@ public class ClientCommandBuilder extends CommandBuilder {
     super(new FlushScreenCommand(),
           new GameOverCommand(),
           new ChangeScoreCommand(),
+          new DetectCheatingCommand(),
           new MoveEntityCommand(),
           new PlayersWonCommand(),
           new PlayersLostCommand(),

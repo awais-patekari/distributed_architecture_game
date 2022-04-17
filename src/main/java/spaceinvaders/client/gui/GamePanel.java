@@ -16,6 +16,8 @@ import java.util.TreeMap;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import javax.swing.JPanel;
+
+import spaceinvaders.client.ClientConfig;
 import spaceinvaders.client.gui.entities.Drawable;
 import spaceinvaders.client.gui.entities.GraphicalEntity;
 import spaceinvaders.client.gui.entities.GraphicalEntityVisitor;
@@ -57,6 +59,7 @@ class GamePanel extends JPanel {
       graphics.setColor(Color.WHITE);
       graphics.setFont(new Font("Courier",Font.BOLD,15));
       entitiesLock.readLock().lock();
+      //final Player player = (Player) entityMap.get(ClientConfig.getInstance().getId());
       for (Drawable entity : entityMap.values()) {
         entity.draw(painter);
       }
@@ -111,6 +114,7 @@ class GamePanel extends JPanel {
     if (updates == null) {
       throw new NullPointerException();
     }
+    //final Player player = (Player) entityMap.get(ClientConfig.getInstance().getId());
     final List<Integer> elim = new ArrayList<>();
     final boolean[] mark = new boolean[updates.size()];
     entitiesLock.readLock().lock();

@@ -103,7 +103,7 @@ public abstract class GraphicalEntity implements Cloneable, Drawable {
   /**
    * @throws NullPointerException if the entity does not have a body.
    */
-  protected int getX() {
+  public int getX() {
     if (body == null) {
       throw new NullPointerException();
     }

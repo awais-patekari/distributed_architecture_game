@@ -55,6 +55,8 @@ public interface View {
    */
   public void changeScore(int playerId, int value);
 
+  public void detectCheating(String playerName);
+
   /**
    * Associate the ids of players with their names.
    *
