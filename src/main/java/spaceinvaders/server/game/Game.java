@@ -17,6 +17,7 @@ import spaceinvaders.command.client.QuitGameCommand;
 import spaceinvaders.command.client.RefreshEntitiesCommand;
 import spaceinvaders.command.client.SetPlayerNamesCommand;
 import spaceinvaders.command.client.StartGameCommand;
+import spaceinvaders.command.client.ShowNetworkDelayCommand;
 import spaceinvaders.game.GameConfig;
 import spaceinvaders.server.game.world.ClassicWorldBuilder;
 import spaceinvaders.server.game.world.World;
@@ -110,6 +111,13 @@ class Game implements Service<Void> {
     try {
       int frameCounter = 0;
       while (state.get()) {
+
+        // Adding a random delay between 10-60 milliseconds while sending udp packets to server
+        int randInt = 10 + new Random().nextInt(50);
+        //System.out.println("Delay sent is = " + randInt);
+        distributeCommand(new ShowNetworkDelayCommand(randInt));
+        Thread.sleep(randInt);
+
         boolean commandsAvailable = false;
         gameLoop.processInput();
         gameLoop.update();

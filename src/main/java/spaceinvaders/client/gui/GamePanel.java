@@ -59,9 +59,34 @@ class GamePanel extends JPanel {
       graphics.setColor(Color.WHITE);
       graphics.setFont(new Font("Courier",Font.BOLD,15));
       entitiesLock.readLock().lock();
-      //final Player player = (Player) entityMap.get(ClientConfig.getInstance().getId());
-      for (Drawable entity : entityMap.values()) {
-        entity.draw(painter);
+      
+      int playerPos = 0;
+
+      for (GraphicalEntity entity : entityMap.values()) {
+        if (entity instanceof Player) {
+          playerPos = ((Player) entity).getX();
+        }
+      }
+
+      int leftBoundary, rightBoundary = 0;
+
+      if(playerPos < config.frame().getWidth()/4) {
+        leftBoundary = 0;
+        rightBoundary = playerPos + config.frame().getWidth()/4;
+      }
+      else if (playerPos > config.frame().getWidth() * 3/4) {
+        leftBoundary = playerPos - config.frame().getWidth()/4;
+        rightBoundary = config.frame().getWidth();
+      }
+      else {
+        leftBoundary = playerPos - config.frame().getWidth()/4;
+        rightBoundary = playerPos + config.frame().getWidth()/4;
+      }
+
+      for (GraphicalEntity entity : entityMap.values()) {
+        if(entity.getX() >= leftBoundary && entity.getX() <= rightBoundary) {
+          entity.draw(painter);
+        }
       }
       entitiesLock.readLock().unlock();
     } else {

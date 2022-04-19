@@ -57,6 +57,8 @@ public interface View {
 
   public void detectCheating(String playerName);
 
+  public void displayDelay(int delay);
+
   /**
    * Associate the ids of players with their names.
    *

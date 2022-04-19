@@ -104,6 +104,11 @@ public class GameView implements View {
   }
 
   @Override
+  public void displayDelay(int delay) {
+    game.displayDelay(delay);
+  }
+
+  @Override
   public void setPlayerNames(List<Couple<Integer,String>> players) {
     game.setPlayerNames(players);
   }

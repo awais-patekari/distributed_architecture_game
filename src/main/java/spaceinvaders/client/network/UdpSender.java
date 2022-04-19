@@ -43,7 +43,7 @@ class UdpSender implements Chain<Command> {
       DatagramPacket packet = new DatagramPacket(data.getBytes(),data.length());
       try {
         // Adding a random delay between 10-50 milliseconds while sending udp packets to server
-        Thread.sleep(10 + new Random().nextInt(50));
+        //Thread.sleep(10 + new Random().nextInt(50));
         socket.send(packet);
       } catch (Exception exception) {
         // Do not stop the game in case one packet fails.

@@ -38,6 +38,7 @@ public class GameGraphics implements UiObject {
   private final JLabel[] scoreLbl = new JLabel[1 + ClientConfig.getInstance().getMaxPlayers()]; 
   private final JLabel controlsLbl = new JLabel();
   private final JLabel detectCheatingLbl = new JLabel();
+  private final JLabel displayDelayLbl = new JLabel();
   private final List<Couple<Integer,Integer>> score = new ArrayList<>();
   private final BufferedImage gameOverImg;
   private final BufferedImage victoryImg;
@@ -63,7 +64,6 @@ public class GameGraphics implements UiObject {
         + "<br>SPACE - shoot"
         + "<br>LEFT/RIGHT - move</html>");
 
-    detectCheatingLbl.setText("--------");
 
     final JPanel messagePanel = new JPanel();
     Box box = Box.createVerticalBox();
@@ -71,11 +71,14 @@ public class GameGraphics implements UiObject {
     box.add(messageLbl);
     box.add(controlsLbl);
     box.add(detectCheatingLbl);
+    box.add(displayDelayLbl);
     for (int index = 0; index < scoreLbl.length; ++index) {
       scoreLbl[index] = new JLabel();
       box.add(scoreLbl[index]);
     }
     scoreLbl[0].setText("Score");
+    detectCheatingLbl.setText("");
+    displayDelayLbl.setText("");
     messagePanel.add(box);
     messagePanel.setPreferredSize(
         new Dimension(msgPanelWidth,config.frame().getHeight()));
@@ -115,6 +118,12 @@ public class GameGraphics implements UiObject {
   public void detectCheating(String name) {
     detectCheatingLbl.setText(name + " is checting!");
     detectCheatingLbl.setForeground(Color.RED);
+  }
+
+  public void displayDelay(int delay) {
+    //System.out.println("Delay received is = " + delay);
+    displayDelayLbl.setText("Network delay : " + delay + "ms");
+    displayDelayLbl.setForeground(Color.BLUE);
   }
 
   /** Add a listener for key bindings. */

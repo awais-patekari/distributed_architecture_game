@@ -10,6 +10,7 @@ public class ClientCommandBuilder extends CommandBuilder {
           new GameOverCommand(),
           new ChangeScoreCommand(),
           new DetectCheatingCommand(),
+          new ShowNetworkDelayCommand(),
           new MoveEntityCommand(),
           new PlayersWonCommand(),
           new PlayersLostCommand(),
