@@ -145,7 +145,7 @@ public class GameView implements View {
   }
 
   @Override
-  public void movePlayerInView(int id, int distance) {
-    game.movePlayerInView(id, distance);
+  public void movePlayerInView(int id, int distance, String direction) {
+    game.movePlayerInView(id, distance, direction);
   }
 }

@@ -242,7 +242,7 @@ public class GameGraphics implements UiObject {
     return frame;
   }
 
-  public void movePlayerInView(int id, int distance) {
-    gamePanel.movePlayerInView(id, distance);
+  public void movePlayerInView(int id, int distance, String direction) {
+    gamePanel.movePlayerInView(id, distance, direction);
   }
 }

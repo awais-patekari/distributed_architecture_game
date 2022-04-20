@@ -302,8 +302,13 @@ class GamePanel extends JPanel {
    * @param id id of the player
    * @param distance distance by which the player moves in one go
    */
-  public void movePlayerInView(int id, int distance) {
+  public void movePlayerInView(int id, int distance, String direction) {
     final GraphicalEntity entity = entityMap.get(id);
-    entity.relocate(entity.getX() + distance, entity.getY());
+    if(direction == "right") {
+      entity.relocate(entity.getX() + distance, entity.getY());
+    }
+    else {
+      entity.relocate(entity.getX() - distance, entity.getY());
+    }
   }
 }

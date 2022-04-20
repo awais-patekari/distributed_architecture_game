@@ -46,7 +46,7 @@ class UdpSender implements Service<Void> {
   public Void call() throws IOException, InterruptedException {
     while (state.get()) {
       DatagramPacket packet = null;
-       /**
+
       try {
         packet = outgoingPacketQueue.take();
       } catch (InterruptedException intException) {
@@ -55,15 +55,10 @@ class UdpSender implements Service<Void> {
         }
         break;
       }
-      */
       
-      //wait for 50 ms and then send all packets in the queue. This is to implement bucket synchronization. Frame rate is 20 frames per second. 
+  
       try {
-        Thread.sleep(50);
-        while(!outgoingPacketQueue.isEmpty()){
-          packet = outgoingPacketQueue.take();
-          serverSocket.send(packet);
-        }
+        serverSocket.send(packet);
       } catch (IOException ioException) { 
         if (state.get()) {
           throw ioException;

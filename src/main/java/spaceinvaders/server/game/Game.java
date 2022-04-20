@@ -121,7 +121,11 @@ class Game implements Service<Void> {
         boolean commandsAvailable = false;
         gameLoop.processInput();
         gameLoop.update();
+        
+        //wait for 50 ms and then send all packets in the buffer. This is to implement bucket synchronization. Frame rate is 20 frames per second. 
+        Thread.sleep(50);
         Command[] commands = gameLoop.drainCommands();
+        
         if (0 != commands.length) {
           commandsAvailable = true;
         }

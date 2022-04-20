@@ -111,5 +111,5 @@ public interface View {
   /** Free resources. */
   public void shutdown();
 
-  public void movePlayerInView(int id, int distance);
+  public void movePlayerInView(int id, int distance, String direction);
 }

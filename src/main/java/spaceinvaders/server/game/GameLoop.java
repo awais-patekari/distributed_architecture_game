@@ -126,6 +126,16 @@ public class GameLoop implements Service<Void> {
     }
   }
 
+  //if the player name is 'Max', 3x the speed at which the player moves 
+  public Boolean isCheater(int id) {
+    for (Player p : team) {
+      if(p.getId() == id && p.getName().equals("max")){
+        return true;
+      }
+    }
+    return false;
+  }
+
   /**
    * Move a player one step to the left.
    *
@@ -136,13 +146,10 @@ public class GameLoop implements Service<Void> {
     while (it.hasNext()) {
       LogicEntity player = it.next();
       if (player.getId() == id) {
-        //if the player name is 'Max', 5x the speed at which the player moves right
+        
         int distanceToMove = config.speed().player().getDistance();
-
-        for (Player p : team) {
-          if(p.getId() == id && p.getName().equals("max")){
-            distanceToMove = 5 * config.speed().player().getDistance();
-          }
+        if(isCheater(id)) {
+          distanceToMove = 3 * distanceToMove;
         }
         movePlayer(player,player.getX() - distanceToMove);
       }
@@ -159,13 +166,9 @@ public class GameLoop implements Service<Void> {
     while (it.hasNext()) {
       LogicEntity player = it.next();
       if (player.getId() == id) {
-        //if the player name is 'Max', 5x the speed at which the player moves right
         int distanceToMove = config.speed().player().getDistance();
-
-        for (Player p : team) {
-          if(p.getId() == id && p.getName().equals("max")){
-            distanceToMove = 5 * config.speed().player().getDistance();
-          }
+        if(isCheater(id)) {
+          distanceToMove = 3 * distanceToMove;
         }
         movePlayer(player,player.getX() + distanceToMove);
       }
