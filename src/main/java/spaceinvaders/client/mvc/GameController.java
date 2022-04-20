@@ -18,6 +18,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.logging.Logger;
+
+import spaceinvaders.client.Client;
 import spaceinvaders.client.ClientConfig;
 import spaceinvaders.command.Command;
 import spaceinvaders.command.server.MovePlayerLeftCommand;
@@ -26,6 +28,7 @@ import spaceinvaders.command.server.PlayerShootCommand;
 import spaceinvaders.exceptions.IllegalPortNumberException;
 import spaceinvaders.exceptions.InvalidServerAddressException;
 import spaceinvaders.exceptions.InvalidUserNameException;
+import spaceinvaders.game.GameConfig;
 import spaceinvaders.utility.Chain;
 
 /**
@@ -211,6 +214,9 @@ public class GameController implements Controller {
           */
 
           model.doCommand(new MovePlayerLeftCommand(ClientConfig.getInstance().getId()));
+          for(View view : views) {
+            view.movePlayerInView(ClientConfig.getInstance().getId(), GameConfig.getInstance().speed().player().getDistance());
+          }
         }
       } else {
         if (nextChain != null) {

@@ -61,9 +61,9 @@ class GamePanel extends JPanel {
       entitiesLock.readLock().lock();
       
       int playerPos = 0;
-
+      int playerId = ClientConfig.getInstance().getId();
       for (GraphicalEntity entity : entityMap.values()) {
-        if (entity instanceof Player) {
+        if(entity.getId() == playerId) {
           playerPos = ((Player) entity).getX();
         }
       }
@@ -212,7 +212,28 @@ class GamePanel extends JPanel {
     if (entity == null) {
       throw new NullPointerException();
     }
-    entity.relocate(newX,newY);
+    
+    /**
+     * As we are moving the entity earlier on keystroke before sending the command to the server, 
+     * check if there is any need to move the entity again when the server responds to the command.
+     * If the entity is already at the position where the server wants it, do nothing.
+     * Otherwise correct the entity position smoothly using smooth correction.
+     */
+    if(newX != entity.getX()){
+      if(Math.abs(newX - entity.getX()) < config.speed().player().getDistance()) {
+        entity.relocate(newX, newY);
+      }
+      else if (entity.getX() > newX) {
+        while(entity.getX() > newX) {
+          entity.relocate(entity.getX() - config.speed().player().getDistance(), newY);
+        }
+      }
+      else {
+        while(entity.getX() < newX) {
+          entity.relocate(entity.getX() + config.speed().player().getDistance(), newY);
+        }
+      }
+    }
   }
 
   /**
@@ -272,5 +293,17 @@ class GamePanel extends JPanel {
       }
     }
     entitiesLock.readLock().unlock();
+  }
+
+ /**
+   * Move the player as soon as the client hits right or left key before the move command is sent to server.
+   * Even if there is network delay with the client, the client will still move in the game.
+   * 
+   * @param id id of the player
+   * @param distance distance by which the player moves in one go
+   */
+  public void movePlayerInView(int id, int distance) {
+    final GraphicalEntity entity = entityMap.get(id);
+    entity.relocate(entity.getX() + distance, entity.getY());
   }
 }

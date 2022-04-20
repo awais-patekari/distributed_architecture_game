@@ -143,4 +143,9 @@ public class GameView implements View {
     menu.destroy();
     game.destroy();
   }
+
+  @Override
+  public void movePlayerInView(int id, int distance) {
+    game.movePlayerInView(id, distance);
+  }
 }

@@ -241,4 +241,8 @@ public class GameGraphics implements UiObject {
   public JFrame getFrame() {
     return frame;
   }
+
+  public void movePlayerInView(int id, int distance) {
+    gamePanel.movePlayerInView(id, distance);
+  }
 }
